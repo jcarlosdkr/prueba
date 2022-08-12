@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransferMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Transaction</a> &gt; <a href="index.source.html" class="el_package">com.demo.mapper.impl</a> &gt; <span class="el_source">TransferMapperImpl.java</span></div><h1>TransferMapperImpl.java</h1><pre class="source lang-java linenums">package com.demo.mapper.impl;
+
+import com.demo.dto.DtoTransfer;
+import com.demo.dto.DtoTransfer.DtoTransferBuilder;
+import com.demo.entity.Transfer;
+import com.demo.entity.Transfer.TransferBuilder;
+import com.demo.mapper.TransferMapper;
+import javax.annotation.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2022-08-11T22:21:10-0500&quot;,
+    comments = &quot;version: 1.4.1.Final, compiler: javac, environment: Java 11.0.12 (Oracle Corporation)&quot;
+)
+@Component
+<span class="fc" id="L17">public class TransferMapperImpl implements TransferMapper {</span>
+
+    @Override
+    public Transfer mapToInner(DtoTransfer outer) {
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if ( outer == null ) {</span>
+<span class="nc" id="L22">            return null;</span>
+        }
+
+<span class="nc" id="L25">        TransferBuilder transfer = Transfer.builder();</span>
+
+<span class="nc" id="L27">        transfer.sentAt( TransferMapper.setTimestamp( outer.getSentAt() ) );</span>
+<span class="nc" id="L28">        transfer.fromAccount( outer.getFromAccount() );</span>
+<span class="nc" id="L29">        transfer.toAccount( outer.getToAccount() );</span>
+<span class="nc" id="L30">        transfer.amount( outer.getAmount() );</span>
+
+<span class="nc" id="L32">        return transfer.build();</span>
+    }
+
+    @Override
+    public DtoTransfer mapToOuter(Transfer inner) {
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if ( inner == null ) {</span>
+<span class="nc" id="L38">            return null;</span>
+        }
+
+<span class="nc" id="L41">        DtoTransferBuilder dtoTransfer = DtoTransfer.builder();</span>
+
+<span class="nc" id="L43">        dtoTransfer.sentAt( TransferMapper.setTime( inner.getSentAt() ) );</span>
+<span class="nc" id="L44">        dtoTransfer.fromAccount( inner.getFromAccount() );</span>
+<span class="nc" id="L45">        dtoTransfer.toAccount( inner.getToAccount() );</span>
+<span class="nc" id="L46">        dtoTransfer.amount( inner.getAmount() );</span>
+
+<span class="nc" id="L48">        return dtoTransfer.build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DemoServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Transaction</a> &gt; <a href="index.source.html" class="el_package">com.demo.service</a> &gt; <span class="el_source">DemoServiceImpl.java</span></div><h1>DemoServiceImpl.java</h1><pre class="source lang-java linenums">package com.demo.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+import com.demo.repository.IDemoAccountRepository;
+import com.demo.repository.IDemoTransferRepository;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.mapper.AccountMapper;
+import com.demo.mapper.TransferMapper;
+import com.demo.dto.DtoResponseAccount;
+import com.demo.dto.DtoAccount;
+import com.demo.dto.DtoBalance;
+import com.demo.dto.DtoTransfer;
+import com.demo.dto.DtoTransaction;
+import com.demo.entity.Account;
+import com.demo.entity.Transfer;
+
+@Service
+<span class="fc" id="L25">public class DemoServiceImpl implements IDemoService {</span>
+
+	@Autowired
+	private IDemoAccountRepository demoAccountRepository;
+
+	@Autowired
+	private IDemoTransferRepository demoTransferRepository;
+
+	@Autowired
+	private AccountMapper accountMapper;
+
+	@Autowired
+	private TransferMapper transferMapper;
+
+	@Override
+	public DtoResponseAccount listAllAccounts() {
+<span class="nc" id="L41">		List&lt;Account&gt; responseAccounts = demoAccountRepository.findAll();</span>
+<span class="nc" id="L42">		final List&lt;DtoAccount&gt; accounts = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L43" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(responseAccounts)) {</span>
+<span class="nc" id="L44">			responseAccounts.stream().forEach(item -&gt; accounts.add(accountMapper.mapToOuter(item)));</span>
+		} else {
+<span class="nc" id="L46">			return null;</span>
+		}
+<span class="nc" id="L48">		DtoResponseAccount response = new DtoResponseAccount();</span>
+<span class="nc" id="L49">		response.setAccounts(accounts);</span>
+<span class="nc" id="L50">		return response;</span>
+	}
+
+	@Override
+	public DtoAccount createAccount(DtoAccount request) {
+<span class="nc" id="L55">		Account accountDB = null;</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (request.getAccount() != null) {</span>
+<span class="nc" id="L57">			accountDB = demoAccountRepository.findByAccount(request.getAccount());</span>
+		} 
+<span class="nc bnc" id="L59" title="All 2 branches missed.">		if (accountDB != null) {</span>
+<span class="nc" id="L60">			return accountMapper.mapToOuter(accountDB);</span>
+		}
+<span class="nc" id="L62">		return accountMapper.mapToOuter(demoAccountRepository.save(accountMapper.mapToInner(request)));</span>
+	}
+	
+	@Override
+	public DtoTransfer createTransfer(DtoTransfer request) {
+<span class="nc" id="L67">		updateAccount(request);</span>
+<span class="nc" id="L68">		return transferMapper.mapToOuter(demoTransferRepository.save(transferMapper.mapToInner(request)));</span>
+	}
+
+	@Override
+	public List&lt;DtoTransfer&gt; listTransfers() {
+<span class="nc" id="L73">		List&lt;Transfer&gt; transfers = demoTransferRepository.findAll();</span>
+<span class="nc" id="L74">		final List&lt;DtoTransfer&gt; response = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(transfers)) {</span>
+<span class="nc" id="L76">			transfers.stream().forEach(item -&gt; response.add(transferMapper.mapToOuter(item)));</span>
+		}
+<span class="nc" id="L78">		return response;</span>
+	}
+
+	@Override
+	public DtoTransaction listAllTransactions() {
+<span class="nc" id="L83">		DtoTransaction transaction = null;</span>
+<span class="nc" id="L84">		List&lt;Transfer&gt; transfers = demoTransferRepository.findAll();</span>
+<span class="nc" id="L85">		List&lt;DtoTransfer&gt; response = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(transfers)) {</span>
+<span class="nc" id="L87">			transfers.stream().forEach(item -&gt; response.add(transferMapper.mapToOuter(item)));</span>
+		}
+<span class="nc bnc" id="L89" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(response)){</span>
+<span class="nc" id="L90">			transaction = new DtoTransaction();</span>
+<span class="nc" id="L91">			transaction.setTransactions(response);</span>
+		}
+<span class="nc" id="L93">		return transaction;</span>
+	}
+
+	@Override
+	public DtoTransaction listAllSendTransactions(Long fromAccount) {
+<span class="nc" id="L98">		DtoTransaction transaction = null;</span>
+<span class="nc" id="L99">		List&lt;Transfer&gt; transfers = demoTransferRepository.findAllByFromAccount(fromAccount);</span>
+<span class="nc" id="L100">		List&lt;DtoTransfer&gt; response = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(transfers)) {</span>
+<span class="nc" id="L102">			transfers.stream().forEach(item -&gt; response.add(transferMapper.mapToOuter(item)));</span>
+		}
+<span class="nc bnc" id="L104" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(response)){</span>
+<span class="nc" id="L105">			transaction = new DtoTransaction();</span>
+<span class="nc" id="L106">			transaction.setTransactions(response);</span>
+		}
+<span class="nc" id="L108">		return transaction;</span>
+	}
+
+	@Override
+	public DtoTransaction listAllRecibeTransactions(Long toAccount) {
+<span class="nc" id="L113">		DtoTransaction transaction = null;</span>
+<span class="nc" id="L114">		List&lt;Transfer&gt; transfers = demoTransferRepository.findAllByToAccount(toAccount);</span>
+<span class="nc" id="L115">		List&lt;DtoTransfer&gt; response = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(transfers)) {</span>
+<span class="nc" id="L117">			transfers.stream().forEach(item -&gt; response.add(transferMapper.mapToOuter(item)));</span>
+		}
+<span class="nc bnc" id="L119" title="All 2 branches missed.">		if (CollectionUtils.isNotEmpty(response)){</span>
+<span class="nc" id="L120">			transaction = new DtoTransaction();</span>
+<span class="nc" id="L121">			transaction.setTransactions(response);</span>
+		}
+<span class="nc" id="L123">		return transaction;</span>
+	}
+
+	@Override
+	public DtoBalance getBalance(Long account) {
+<span class="nc" id="L128">		DtoBalance response = null;</span>
+<span class="nc" id="L129">		Account accountDB = null;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">		if (account != null) {</span>
+<span class="nc" id="L131">			accountDB = demoAccountRepository.findByAccount(account);</span>
+		} 
+<span class="nc bnc" id="L133" title="All 2 branches missed.">		if (accountDB != null) {</span>
+<span class="nc" id="L134">			response = new DtoBalance();</span>
+<span class="nc" id="L135">			response.setBalance(accountMapper.mapToOuter(accountDB));</span>
+		}
+
+<span class="nc" id="L138">		return response;</span>
+	}
+
+	private void updateAccount(final DtoTransfer transfer) {
+<span class="nc" id="L142">		Account accountMinus = demoAccountRepository.findByAccount(transfer.getFromAccount());</span>
+<span class="nc" id="L143">		validateExistAccount(accountMinus, &quot;fromAccount does not exist.&quot;);</span>
+<span class="nc" id="L144">		Account accountPlus = demoAccountRepository.findByAccount(transfer.getToAccount());</span>
+<span class="nc" id="L145">		validateExistAccount(accountPlus, &quot;toAccount does not exist.&quot;);</span>
+<span class="nc" id="L146">		Double amount = null;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">		if (accountMinus.getBalance() &gt; 0) {</span>
+<span class="nc" id="L148">			amount = accountMinus.getBalance() - transfer.getAmount();</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">			if (amount &lt;= 0) {</span>
+<span class="nc" id="L150">				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, &quot;This operation cannot be performed, insufficient balance.&quot;);</span>
+			}
+<span class="nc" id="L152">			accountMinus.setBalance(amount);</span>
+<span class="nc" id="L153">			demoAccountRepository.save(accountMinus);</span>
+		}  
+<span class="nc" id="L155">		accountPlus.setBalance(accountPlus.getBalance() + transfer.getAmount());</span>
+<span class="nc" id="L156">		demoAccountRepository.save(accountPlus);</span>
+<span class="nc" id="L157">	}</span>
+
+	private void validateExistAccount(Account account, String message) {
+<span class="nc bnc" id="L160" title="All 2 branches missed.">		if (account == null) {</span>
+<span class="nc" id="L161">			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message);</span>
+		}
+<span class="nc" id="L163">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
