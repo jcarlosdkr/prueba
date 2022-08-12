@@ -1,4 +1,4 @@
-## **API REST Examen Service**
+# **API REST Examen Service**
 
 Desarrollado con: <br />
 Java 8  <br />
@@ -6,21 +6,21 @@ Maven 3.6.3  <br />
 Spring-Boot 2.5.0  <br />
 H2 1.4.194  <br />
 
-# compilar y generar el jar en el target y repositorio
+## compilar y generar el jar en el target y repositorio
 ```
 mvn clean install 
 ```
 
-# Levantar el servicio local
+## Levantar el servicio local
 ```
 mvn spring-boot:run
 ```
 
-# Interfaz Swagger-UI
-http://localhost:8092/swagger-ui.html#/
+## Interfaz Swagger-UI
+http://localhost:8092/swagger-ui.html#/  <br />
 
-# SE ADJUNTA COLLECCION DE POSTMAN CON LAS PETICIONES SOLICITADOAS
-examen.postman_collection.json
+## SE ADJUNTA COLLECCION DE POSTMAN CON LAS PETICIONES SOLICITADOAS
+examen.postman_collection.json  <br />
 
 # CONSUMIR SERVICIO
 ## LISTADO DE CUENTAS
@@ -29,7 +29,7 @@ URI: http://localhost:8092/demo/accounts  <br />
 RESPONSE CODE: 200  <br />
 POSTMAN: getAccounnts  <br />
 
-# EL SERVICIO YA TIENE CUENTAS EN LA BASE DE DATOS PERO SI SE REQUIERE CREAR MAS
+## EL SERVICIO YA TIENE CUENTAS EN LA BASE DE DATOS PERO SI SE REQUIERE CREAR MAS
 ## CREAR CUENTA
 METODO: POST  <br />
 URI: http://localhost:8092/demo/createAccount  <br />
@@ -45,7 +45,7 @@ JSON  <br />
 }
 ```
 >NOTA1: createdAt la fecha debe ser enviada como cadena con el formato yyyy-MM-dd HH:mm:ss.ms y sera enviada a la base de datos como Timestamp  <br />
->NOTA2: utilizando el principio de idempotencia si se envia una cuenta con un account existe, esta no se crea y tampoco se actualiza, debido a que ya existe una en la base de datos.
+>NOTA2: utilizando el principio de idempotencia si se envia una cuenta con un account existe, esta no se crea y tampoco se actualiza, debido a que ya existe una en la base de datos.  <br />
 
 ## TRANSFERIR DINERO
 METODO: POST  <br />
@@ -60,14 +60,14 @@ JSON  <br />
 	"amount" : 201.00
 }
 ```
->NOTA1: las cuentas deben existir en la base de datos de lo contrario recibira un error
+>NOTA1: las cuentas deben existir en la base de datos de lo contrario recibira un error  <br />
 
 ## HISTORICO DE TRANSACCIONES
 METODO: GET  <br />
 URI: http://localhost:8092/demo/transactions  <br />
 RESPONSE CODE: 200  <br />
 POSTMAN: getTrasactions  <br />
->NOTA1: lista todas las transacciones
+>NOTA1: lista todas las transacciones  <br />
 
 ## HISTORICO DE TRANSACCIONES
 METODO: GET  <br />
