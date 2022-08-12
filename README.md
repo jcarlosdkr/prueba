@@ -24,18 +24,18 @@ examen.postman_collection.json
 
 # CONSUMIR SERVICIO
 ## LISTADO DE CUENTAS
-METODDO: GET
-URI: http://localhost:8092/demo/accounts
-RESPONSE CODE: 200
-POSTMAN: getAccounnts
+METODDO: GET  <br />
+URI: http://localhost:8092/demo/accounts  <br />
+RESPONSE CODE: 200  <br />
+POSTMAN: getAccounnts  <br />
 
 # EL SERVICIO YA TIENE CUENTAS EN LA BASE DE DATOS PERO SI SE REQUIERE CREAR MAS
 ## CREAR CUENTA
-METODO: POST
-URI: http://localhost:8092/demo/createAccount
-RESPONSE CODE: 201
-POSTMAN: createAccount
-JSON
+METODO: POST  <br />
+URI: http://localhost:8092/demo/createAccount  <br />
+RESPONSE CODE: 201  <br />
+POSTMAN: createAccount  <br />
+JSON  <br />
 ``` 
 {
     "account" : 543219878,
@@ -44,15 +44,15 @@ JSON
 	"createdAt" : "2022-08-10 11:21:21.19222"
 }
 ```
->NOTA1: createdAt la fecha debe ser enviada como cadena con el formato yyyy-MM-dd HH:mm:ss.ms y sera enviada a la base de datos como Timestamp
+>NOTA1: createdAt la fecha debe ser enviada como cadena con el formato yyyy-MM-dd HH:mm:ss.ms y sera enviada a la base de datos como Timestamp  <br />
 >NOTA2: utilizando el principio de idempotencia si se envia una cuenta con un account existe, esta no se crea y tampoco se actualiza, debido a que ya existe una en la base de datos.
 
 ## TRANSFERIR DINERO
-METODO: POST
-URI: http://localhost:8092/demo/createTransfer
-RESPONSE CODE: 201
-POSTMAN: createTransfer
-JSON
+METODO: POST  <br />
+URI: http://localhost:8092/demo/createTransfer  <br />
+RESPONSE CODE: 201  <br />
+POSTMAN: createTransfer  <br />
+JSON  <br />
 ``` 
 {
 	"fromAccount" : 123456789,
@@ -63,31 +63,31 @@ JSON
 >NOTA1: las cuentas deben existir en la base de datos de lo contrario recibira un error
 
 ## HISTORICO DE TRANSACCIONES
-METODO: GET
-URI: http://localhost:8092/demo/transactions
-RESPONSE CODE: 200
-POSTMAN: getTrasactions
+METODO: GET  <br />
+URI: http://localhost:8092/demo/transactions  <br />
+RESPONSE CODE: 200  <br />
+POSTMAN: getTrasactions  <br />
 >NOTA1: lista todas las transacciones
 
 ## HISTORICO DE TRANSACCIONES
-METODO: GET
-URI: http://localhost:8092/demo/send-transactions/{fromAccount}
-RESPONSE CODE: 200
-POSTMAN: listAllSendTransactions
->NOTA1: lista todas las transacciones que fueron enviadas por una cuenta especifica
->NOTA2: el pathparam es una cuenta existente que haya enviado una transaccion
+METODO: GET  <br />
+URI: http://localhost:8092/demo/send-transactions/{fromAccount}  <br />
+RESPONSE CODE: 200  <br />
+POSTMAN: listAllSendTransactions  <br />
+>NOTA1: lista todas las transacciones que fueron enviadas por una cuenta especifica  <br />
+>NOTA2: el pathparam es una cuenta existente que haya enviado una transaccion  <br />
 
 ## HISTORICO DE TRANSACCIONES
-METODO: GET
-URI: http://localhost:8092/demo/recibe-transactions/{toAccount}
-RESPONSE CODE: 200
-POSTMAN: listAllRecibeTransactions
->NOTA1: lista todas las transacciones que fueron recibidas por una cuenta especifica
->NOTA2: el pathparam es una cuenta existente que haya recibido una transaccion
+METODO: GET  <br />
+URI: http://localhost:8092/demo/recibe-transactions/{toAccount}  <br />
+RESPONSE CODE: 200  <br />
+POSTMAN: listAllRecibeTransactions  <br />
+>NOTA1: lista todas las transacciones que fueron recibidas por una cuenta especifica  <br />
+>NOTA2: el pathparam es una cuenta existente que haya recibido una transaccion  <br />
 
 ## BALANCE DE LA CUENTA
-METODO: GET
-URI: http://localhost:8092/demo/balance/{account}
-RESPONSE CODE: 200
-POSTMAN: getBalance
->NOTA1: el pathparam es una cuenta existente en la base de datos
+METODO: GET  <br />
+URI: http://localhost:8092/demo/balance/{account}  <br />
+RESPONSE CODE: 200  <br />
+POSTMAN: getBalance  <br />
+>NOTA1: el pathparam es una cuenta existente en la base de datos  <br />
