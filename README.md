@@ -1,6 +1,6 @@
 ## **API REST Examen Service**
 
-Desarrollado con 
+# Desarrollado con:
 Java 8
 Maven 3.6.3
 Spring-Boot 2.5.0
@@ -60,7 +60,7 @@ JSON
 	"amount" : 201.00
 }
 ```
->NOTA1: las cuentas deben existir en la base de datos de lo contrario recibirar un error
+>NOTA1: las cuentas deben existir en la base de datos de lo contrario recibira un error
 
 # HISTORICO DE TRANSACCIONES
 METODO: GET
